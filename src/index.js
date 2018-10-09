@@ -3,18 +3,42 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './Components/App/App';
 import * as serviceWorker from './serviceWorker';
-// Create Store
-import {createStore} from 'redux';
+// Create Store 
+import {createStore, combineReducers} from 'redux';
 // import. brings in the store to our React application
 import { Provider } from 'react-redux';
 
+// Break out reducers so can use combineReducers //
+
+ // This function is our first reducer [previously inside the storeInstance, until we needed more that one]
+  // That runs every time an action is dispatched
+const firstReducer = (state, action) => {
+  if(action.type === 'BUTTON_ONE') {
+    console.log('Button One was clicked.');
+  }
+  return 0;
+}
+
+const secondReducer = (state, action) => {
+  if(action.type === 'BUTTON_TWO') {
+    console.log('Button Two  was clicked.');
+  }
+  return 'two';
+}
+
+const elementListReducer = (state, action) => {
+  console.log(action);
+  return 1;
+}
+
 // Store is the big JS object that holds all of the info for out app
 const storeInstance = createStore(
-  // This function is our first reducer
-  // That runs every time an action is dispatched
-  () => {
-    console.log('I am a reducer.');
-  },
+  combineReducers({
+    // ES6 so basically replacing firstReducer: firstReducer
+    firstReducer, 
+    secondReducer,
+    elementListReducer,
+  }),
 );
 
 // Wrap the App with the Provider & add a prop
